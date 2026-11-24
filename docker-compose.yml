@@ -1,0 +1,90 @@
+# ============================================================
+# Docker Compose 编排配置
+# 一键启动完整智能面试助手系统
+#
+# 用法:
+#   docker-compose up -d          # 启动所有服务
+#   docker-compose logs -f backend # 查看后端日志
+#   docker-compose down            # 停止服务
+# ============================================================
+
+version: "3.8"
+
+services:
+  # === 前端服务（Nginx + 静态文件）===
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: interview-frontend
+    ports:
+      - "8866:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - interview-net
+
+  # === Python AI 后端服务 ===
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: interview-backend
+    ports:
+      - "8001:8001"
+    environment:
+      AUTO_INIT_VECTOR_DB: "true"
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      QWEN_API_KEY: ${QWEN_API_KEY:-}
+      VOLC_APP_ID: ${VOLC_APP_ID:-}
+      VOLC_TOKEN: ${VOLC_TOKEN:-}
+      USE_LOCAL_LLM: "false"
+      UVICORN_WORKERS: "2"
+    volumes:
+      # 向量数据库持久化
+      - chroma-data:/app/data/chroma_db
+      # 日志持久化
+      - interview-logs:/app/data/interview_logs
+      # 模型目录（挂载本地模型用于LoRA推理）
+      - ./models:/app/models:ro
+    restart: unless-stopped
+    networks:
+      - interview-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # === 可选：本地LLM推理服务 ===
+  # 如需使用微调后的本地模型，取消注释以下服务
+  # local-llm:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.backend
+  #   container_name: interview-local-llm
+  #   ports:
+  #     - "8002:8002"
+  #   environment:
+  #     - LOCAL_MODEL_PATH=/app/models/your-model.gguf
+  #     - LOCAL_LORA_PATH=/app/models/your-lora.gguf
+  #     - USE_LLAMA_CPP=true
+  #   volumes:
+  #     - ./models:/app/models:ro
+  #   command: ["python", "backend/local_llm.py"]
+  #   networks:
+  #     - interview-net
+
+# === 持久化卷 ===
+volumes:
+  chroma-data:
+    driver: local
+  interview-logs:
+    driver: local
+
+# === 网络 ===
+networks:
+  interview-net:
+    driver: bridge

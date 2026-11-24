@@ -1,0 +1,55 @@
+# ============================================================
+# Python AI 后端服务 Dockerfile
+# 职责：运行FastAPI服务，提供RAG检索、向量存储、日志分析
+# ============================================================
+
+FROM python:3.10-slim as builder
+
+WORKDIR /app
+
+# 安装系统依赖
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libgomp1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 先复制依赖文件，利用Docker缓存层
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    --extra-index-url https://download.pytorch.org/whl/cpu \
+    --timeout 120
+
+# ============================================================
+# 生产镜像
+# ============================================================
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# 安装运行时依赖
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 从builder复制Python包
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# 复制后端代码
+COPY backend/ ./backend/
+COPY data/ ./data/
+COPY scripts/ ./scripts/
+
+# 设置环境变量
+ENV PYTHONPATH=/app/backend
+ENV AUTO_INIT_VECTOR_DB=true
+ENV UVICORN_WORKERS=2
+
+# 暴露端口
+EXPOSE 8001
+
+# 启动命令：初始化向量库 + 启动FastAPI
+CMD ["sh", "-c", "cd /app/backend && python -c \"from vector_store import init_interview_collection; init_interview_collection('../data/interview_questions.json')\" && uvicorn main:app --host 0.0.0.0 --port 8001 --workers ${UVICORN_WORKERS}"]

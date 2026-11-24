@@ -1,0 +1,32 @@
+# Local environments and package caches
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Credentials and local runtime data
+.env
+.env.*
+!.env.example
+data/chroma_db/
+data/interview_logs/
+.uploads/
+.trae-html-share-packages/
+
+# Model weights and training checkpoints (several GB)
+models/*
+!models/README.md
+
+# Generated coursework and presentation deliverables may contain student IDs/names
+*.docx
+*.pptx
+interview-project/
+interview-ppt/
+interview-lora-train.zip
+
+# Temporary/editor files
+.idea/
+.vscode/
+*.log

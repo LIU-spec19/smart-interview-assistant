@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>虚拟面试官 · Interview Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ==================== 配置页 ==================== -->
+<div id="setup-screen">
+
+  <div class="logo-area">
+    <div class="logo-icon">🎯</div>
+    <h1>Virtual Interviewer</h1>
+    <p>AI 驱动的沉浸式面试训练系统</p>
+    <div class="confidence-badge">✨ 建立信心 · 提升表现 · 斩获 Offer</div>
+  </div>
+
+  <div class="setup-grid">
+
+    <!-- 摄像头预览 -->
+    <div class="setup-card camera-card">
+      <h3>📷 摄像头预览 · 面试状态分析</h3>
+      <div class="camera-box">
+        <video id="camera-preview" autoplay muted playsinline></video>
+        <div class="camera-info">
+          <p>
+            候选人和 HR 的头像为演示形象，随机分配，不会通过摄像头识别性别。面试时，系统会按间隔将摄像头画面发送至配置的 Qwen-VL 服务分析表情与姿态；不启用摄像头也可以面试。
+          </p>
+          <button class="btn-sm" onclick="startCamera()">📸 开启摄像头</button>
+          <div class="gender-result" id="gender-result">
+            <div class="gender-badge" id="gender-badge">演示形象随机分配</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 面试职位 -->
+    <div class="setup-card">
+      <h3>💼 面试职位</h3>
+      <div class="option-grid" id="job-options">
+        <button class="option-btn" data-value="software" onclick="selectOption('job', this)">
+          <span class="emoji">💻</span>
+          <div><span class="label">软件工程师</span><span class="desc">前端 / 后端 / 全栈开发</span></div>
+        </button>
+        <button class="option-btn" data-value="product" onclick="selectOption('job', this)">
+          <span class="emoji">📱</span>
+          <div><span class="label">产品经理</span><span class="desc">B端 / C端 / 0到1产品规划</span></div>
+        </button>
+        <button class="option-btn" data-value="design" onclick="selectOption('job', this)">
+          <span class="emoji">🎨</span>
+          <div><span class="label">UI/UX 设计师</span><span class="desc">用户体验 / 视觉设计</span></div>
+        </button>
+        <button class="option-btn" data-value="marketing" onclick="selectOption('job', this)">
+          <span class="emoji">📊</span>
+          <div><span class="label">市场营销</span><span class="desc">品牌推广 / 数字营销</span></div>
+        </button>
+        <button class="option-btn" data-value="data" onclick="selectOption('job', this)">
+          <span class="emoji">📈</span>
+          <div><span class="label">数据分析师</span><span class="desc">数据挖掘 / 商业智能</span></div>
+        </button>
+        <button class="option-btn" data-value="custom" onclick="selectOption('job', this)">
+          <span class="emoji">📝</span>
+          <div><span class="label">自定义 · 资料驱动</span><span class="desc">上传资料后，由 AI 分析并生成专属面试</span></div>
+        </button>
+      </div>
+      <p class="custom-job-hint" id="custom-job-hint" style="display:none;">
+        已选择资料驱动模式：请在页面下方「上传面试资料」中上传并解析至少一份 PDF / Word，解析成功后即可开始。
+      </p>
+    </div>
+
+    <!-- 面试官类型 + API Key -->
+    <div class="setup-card">
+      <h3>🎭 面试官类型</h3>
+      <div class="option-grid" id="type-options">
+        <button class="option-btn" data-value="strict" data-type="strict" onclick="selectOption('type', this)">
+          <span class="emoji">⚡</span>
+          <div><span class="label">严厉型</span><span class="desc">高标准、追问犀利、压力测试</span></div>
+        </button>
+        <button class="option-btn" data-value="gentle" data-type="gentle" onclick="selectOption('type', this)">
+          <span class="emoji">🌿</span>
+          <div><span class="label">和蔼型</span><span class="desc">循循善诱、耐心倾听、温和引导</span></div>
+        </button>
+        <button class="option-btn" data-value="enthusiastic" data-type="enthusiastic" onclick="selectOption('type', this)">
+          <span class="emoji">🔥</span>
+          <div><span class="label">热情型</span><span class="desc">活泼开朗、积极鼓励、互动频繁</span></div>
+        </button>
+      </div>
+
+      <div style="margin-top: 22px; display:flex; flex-direction:column; gap:10px;">
+
+        <div style="padding: 11px 14px; background: rgba(58,104,240,0.06); border: 1.5px solid rgba(58,104,240,0.15); border-radius: 10px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.1rem;">🤖</span>
+          <div>
+            <div style="font-size:0.82rem; font-weight:600; color:var(--accent);">DeepSeek 对话 · 服务端配置</div>
+            <div style="font-size:0.73rem; color:var(--muted); margin-top:1px;">请在后端环境变量中配置 API Key</div>
+          </div>
+          <span style="margin-left:auto; font-size:0.72rem; color:var(--accent3); font-weight:600;">✓ 就绪</span>
+        </div>
+
+        <div style="padding: 11px 14px; background: rgba(14,176,122,0.06); border: 1.5px solid rgba(14,176,122,0.15); border-radius: 10px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.1rem;">🔊</span>
+          <div>
+            <div style="font-size:0.82rem; font-weight:600; color:#0a9060;">火山引擎 AI 语音 · 可选</div>
+            <div style="font-size:0.73rem; color:var(--muted); margin-top:1px;">需要在服务端配置凭据；未配置时使用浏览器语音</div>
+          </div>
+          <span style="margin-left:auto; font-size:0.72rem; color:var(--accent3); font-weight:600;">✓ 就绪</span>
+        </div>
+
+        <div style="padding: 11px 14px; background: rgba(124,85,245,0.06); border: 1.5px solid rgba(124,85,245,0.15); border-radius: 10px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.1rem;">👁️</span>
+          <div>
+            <div style="font-size:0.82rem; font-weight:600; color:var(--accent2);">阿里云 Qwen-VL 视觉 · 可选</div>
+            <div style="font-size:0.73rem; color:var(--muted); margin-top:1px;">配置服务端凭据后分析摄像头画面</div>
+          </div>
+          <span style="margin-left:auto; font-size:0.72rem; color:var(--accent3); font-weight:600;">✓ 就绪</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 模型选择 -->
+    <div class="setup-card">
+      <h3>🧠 选择 AI 模型</h3>
+      <div class="option-grid" id="model-options">
+        <button class="option-btn" data-value="api" onclick="selectOption('model', this)">
+          <span class="emoji">☁️</span>
+          <div><span class="label">DeepSeek API</span><span class="desc">在线调用，响应快速，无需本地算力</span></div>
+        </button>
+        <button class="option-btn" data-value="local" onclick="selectOption('model', this)">
+          <span class="emoji">🏠</span>
+          <div><span class="label">本地 LoRA 模型</span><span class="desc">离线运行，隐私安全，使用自训练模型</span></div>
+        </button>
+      </div>
+      <p id="model-hint" style="margin-top:10px;font-size:0.75rem;color:var(--muted);display:none;">
+        本地模型需在 <code>models/lora-interview/merged/</code> 目录放置合并后的模型文件，启动后端时将自动加载。
+      </p>
+    </div>
+
+    <!-- 简历/JD 文件上传 -->
+    <div class="setup-card upload-card">
+      <h3>📄 上传面试资料 · 开启专项面试 <span style="font-size:0.68rem;color:var(--accent3);font-weight:500;text-transform:none;letter-spacing:0;background:rgba(14,176,122,0.08);padding:2px 8px;border-radius:8px;margin-left:4px;">可选</span></h3>
+
+      <div class="upload-tabs">
+        <button class="upload-tab active" data-tab="resume" onclick="switchUploadTab('resume', this)">📋 我的简历</button>
+        <button class="upload-tab" data-tab="jd" onclick="switchUploadTab('jd', this)">🏢 职位描述 JD</button>
+        <button class="upload-tab" data-tab="both" onclick="switchUploadTab('both', this)">✨ 两者都上传</button>
+      </div>
+
+      <div class="upload-panels">
+
+        <!-- 简历上传 -->
+        <div class="upload-panel active" id="panel-resume">
+          <div class="drop-zone" id="drop-resume" onclick="document.getElementById('file-resume').click()"
+               ondragover="handleDragOver(event)" ondrop="handleDrop(event,'resume')" ondragleave="handleDragLeave(event)">
+            <div class="drop-icon">📋</div>
+            <div class="drop-title">上传你的简历</div>
+            <div class="drop-desc">支持 PDF、Word（.docx）· 点击或拖拽上传</div>
+            <div class="drop-hint">面试官将根据你的简历经历进行针对性提问</div>
+          </div>
+          <input type="file" id="file-resume" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect(event,'resume')" />
+          <div class="file-preview" id="preview-resume" style="display:none"></div>
+        </div>
+
+        <!-- JD 上传 -->
+        <div class="upload-panel" id="panel-jd">
+          <div class="drop-zone" id="drop-jd" onclick="document.getElementById('file-jd').click()"
+               ondragover="handleDragOver(event)" ondrop="handleDrop(event,'jd')" ondragleave="handleDragLeave(event)">
+            <div class="drop-icon">🏢</div>
+            <div class="drop-title">上传职位描述 JD</div>
+            <div class="drop-desc">支持 PDF、Word（.docx）· 点击或拖拽上传</div>
+            <div class="drop-hint">面试官将根据 JD 要求设计针对性考核问题</div>
+          </div>
+          <input type="file" id="file-jd" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect(event,'jd')" />
+          <div class="file-preview" id="preview-jd" style="display:none"></div>
+        </div>
+
+        <!-- 两者都上传 -->
+        <div class="upload-panel" id="panel-both">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <div class="drop-zone mini" id="drop-both-resume" onclick="document.getElementById('file-both-resume').click()"
+                   ondragover="handleDragOver(event)" ondrop="handleDrop(event,'both-resume')" ondragleave="handleDragLeave(event)">
+                <div class="drop-icon" style="font-size:1.5rem;">📋</div>
+                <div class="drop-title" style="font-size:0.85rem;">简历</div>
+                <div class="drop-desc">PDF / Word</div>
+              </div>
+              <input type="file" id="file-both-resume" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect(event,'both-resume')" />
+              <div class="file-preview" id="preview-both-resume" style="display:none"></div>
+            </div>
+            <div>
+              <div class="drop-zone mini" id="drop-both-jd" onclick="document.getElementById('file-both-jd').click()"
+                   ondragover="handleDragOver(event)" ondrop="handleDrop(event,'both-jd')" ondragleave="handleDragLeave(event)">
+                <div class="drop-icon" style="font-size:1.5rem;">🏢</div>
+                <div class="drop-title" style="font-size:0.85rem;">职位 JD</div>
+                <div class="drop-desc">PDF / Word</div>
+              </div>
+              <input type="file" id="file-both-jd" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect(event,'both-jd')" />
+              <div class="file-preview" id="preview-both-jd" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /upload-panels -->
+
+      <!-- 解析状态 -->
+      <div class="parse-status" id="parse-status" style="display:none">
+        <div class="parse-spinner"></div>
+        <span id="parse-status-text">正在解析文件...</span>
+      </div>
+
+      <!-- 文件内容预览摘要 -->
+      <div class="file-summary" id="file-summary" style="display:none">
+        <div class="summary-title">✅ 文件解析成功，专项面试已准备好</div>
+        <div class="summary-content" id="summary-content"></div>
+        <button class="btn-sm" style="margin-top:8px;font-size:0.75rem;" onclick="clearUploadedFiles()">✕ 清除文件，使用通用面试</button>
+      </div>
+
+    </div><!-- /upload-card -->
+
+  </div><!-- /setup-grid -->
+
+  <button class="start-btn" id="start-btn" onclick="startInterview()" disabled>
+    开始面试 →
+  </button>
+
+</div><!-- /setup-screen -->
+
+
+<!-- ==================== 面试页 ==================== -->
+<div id="interview-screen">
+
+  <header class="interview-header">
+    <div class="header-info">
+      <div class="status-dot"></div>
+      <div>
+        <div class="header-title" id="header-title">面试进行中</div>
+        <div class="header-sub" id="header-sub">软件工程师 · 和蔼型面试官</div>
+      </div>
+    </div>
+    <div class="round-badge" id="round-badge">第 1 / 6 题</div>
+    <button class="end-btn" onclick="endInterview()">结束面试</button>
+  </header>
+
+  <div class="interview-main">
+
+    <!-- 左侧：角色面板 -->
+    <div class="characters-panel">
+
+      <!-- HR 卡片 -->
+      <div class="character-card hr-card" id="hr-card">
+        <div class="char-header">
+          <div class="char-avatar" id="hr-avatar">
+            <div class="speaking-ring" id="hr-ring"></div>
+          </div>
+          <div class="char-info">
+            <div class="char-name" id="hr-name">李娜</div>
+            <div class="char-role">HR 面试官</div>
+          </div>
+        </div>
+        <div class="char-type-badge" id="hr-type-badge"></div>
+        <div class="char-speech" id="hr-speech">等待面试开始...</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="interview-progress" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- 求职者卡片 -->
+      <div class="character-card" id="user-card">
+        <div class="char-header">
+          <div class="char-avatar" id="user-avatar">
+            <div class="speaking-ring" id="user-ring"></div>
+          </div>
+          <div class="char-info">
+            <div class="char-name" id="user-name">求职者</div>
+            <div class="char-role" id="user-role-label">应聘中...</div>
+          </div>
+        </div>
+        <div class="char-speech" id="user-speech">准备好了吗？</div>
+        <div class="score-pills" id="score-pills"></div>
+      </div>
+
+      <!-- 面试技巧提示 -->
+      <div class="tip-card">
+        <div class="tip-title">💡 面试技巧</div>
+        <div class="tip-text" id="tip-text">深呼吸，回答前先整理思路，用 STAR 法则结构化表达。</div>
+      </div>
+
+      <!-- 实时摄像头预览 -->
+      <div class="webcam-mini">
+        <h4>实时画面</h4>
+        <video id="webcam-small" autoplay muted playsinline></video>
+        <p style="color: var(--muted); font-size: 0.76rem; margin-top: 8px;" id="cam-status-mini">
+          摄像头未开启
+        </p>
+      </div>
+
+      <!-- 实时置信度仪表盘 -->
+      <div class="confidence-panel" id="confidence-panel">
+        <div class="conf-header">
+          <span class="conf-title">🎯 实时置信度</span>
+          <span class="conf-badge" id="conf-badge">分析中...</span>
+        </div>
+        <div class="conf-meter-wrap">
+          <div class="conf-meter-bg">
+            <div class="conf-meter-fill" id="conf-meter-fill" style="width:0%"></div>
+          </div>
+          <span class="conf-score" id="conf-score">--</span>
+        </div>
+        <div class="emotion-row" id="emotion-row">
+          <div class="emotion-chip" id="emo-expression">😐 表情</div>
+          <div class="emotion-chip" id="emo-posture">🧍 姿态</div>
+          <div class="emotion-chip" id="emo-energy">⚡ 状态</div>
+        </div>
+        <div class="conf-tip" id="conf-tip">等待首次分析...</div>
+      </div>
+
+    </div><!-- /characters-panel -->
+
+    <!-- 右侧：对话区 -->
+    <div class="chat-panel">
+      <div class="chat-messages" id="chat-messages"></div>
+
+      <div class="input-area">
+        <div class="input-controls">
+          <button class="voice-btn" id="voice-btn" onclick="toggleRecording()" title="点击语音回答">
+            🎤
+          </button>
+          <div class="text-input-wrap">
+            <textarea
+              id="text-input"
+              rows="1"
+              placeholder="输入您的回答，或点击麦克风使用语音..."
+              onkeydown="handleKeydown(event)"
+              oninput="autoResize(this)"
+            ></textarea>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()" title="发送">➤</button>
+          </div>
+        </div>
+        <div class="voice-status" id="voice-status">
+          点击麦克风开始语音回答，或直接在输入框输入文字
+        </div>
+      </div>
+    </div><!-- /chat-panel -->
+
+  </div><!-- /interview-main -->
+
+</div><!-- /interview-screen -->
+
+
+<!-- ==================== 结果页 ==================== -->
+<div id="result-screen">
+  <div class="result-card">
+    <span class="result-trophy">🏆</span>
+    <div class="result-score" id="result-score">85</div>
+    <div class="result-label">综合面试评分</div>
+    <div class="result-divider"></div>
+    <div class="result-summary" id="result-summary">正在生成评估报告...</div>
+
+    <!-- 非语言表现报告 -->
+    <div class="visual-report" id="visual-report" style="display:none">
+      <div class="visual-report-title">👁️ 非语言表现分析</div>
+      <div class="visual-stats" id="visual-stats"></div>
+      <div class="visual-timeline" id="visual-timeline"></div>
+      <div class="visual-advice" id="visual-advice"></div>
+    </div>
+
+    <button class="restart-btn" onclick="location.reload()">🔄 再来一次</button>
+  </div>
+</div><!-- /result-screen -->
+
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# === LoRA微调训练依赖（仅在云GPU服务器训练时安装，Mac部署环境不需要）===
+peft>=0.15.0
+datasets>=3.0.0
+accelerate>=1.0.0
+bitsandbytes>=0.45.0
