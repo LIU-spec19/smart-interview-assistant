@@ -11,74 +11,74 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="590" rx="22" fill="url(#bg)"/>
-  <text x="48" y="55" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif" font-size="27" font-weight="700" fill="#17324d">系统结构｜从面试设置到回答反馈</text>
-  <text x="48" y="83" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif" font-size="15" fill="#5a7188">当前仓库的主要数据流；本地模型权重与服务凭据需要自行配置</text>
+  <text x="48" y="55" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif" font-size="30" font-weight="700" fill="#17324d">系统结构｜从面试设置到回答反馈</text>
+  <text x="48" y="83" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif" font-size="16" fill="#5a7188">当前仓库的主要数据流；本地模型权重与服务凭据需要自行配置</text>
 
   <g font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">
     <rect x="42" y="122" width="255" height="174" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
     <rect x="42" y="122" width="255" height="8" rx="4" fill="#4b83d1"/>
     <circle cx="70" cy="158" r="15" fill="#e8f1ff"/>
-    <text x="70" y="163" text-anchor="middle" font-size="13" font-weight="700" fill="#326bb5">01</text>
-    <text x="95" y="164" font-size="18" font-weight="700" fill="#17324d">浏览器端</text>
-    <text x="62" y="202" font-size="14" fill="#415a72">职位与面试官设置</text>
-    <text x="62" y="228" font-size="14" fill="#415a72">问答、语音交互</text>
-    <text x="62" y="254" font-size="14" fill="#415a72">可选简历 / JD / 摄像头</text>
-    <text x="62" y="279" font-size="12" fill="#7b8fa2">用户选择启用哪些能力</text>
+    <text x="70" y="163" text-anchor="middle" font-size="14" font-weight="700" fill="#326bb5">01</text>
+    <text x="95" y="164" font-size="20" font-weight="700" fill="#17324d">浏览器端</text>
+    <text x="62" y="202" font-size="18" fill="#415a72">职位与面试官设置</text>
+    <text x="62" y="228" font-size="18" fill="#415a72">问答、语音交互</text>
+    <text x="62" y="254" font-size="18" fill="#415a72">可选简历 / JD / 摄像头</text>
+    <text x="62" y="279" font-size="14" fill="#7b8fa2">用户选择启用哪些能力</text>
 
     <rect x="342" y="122" width="255" height="174" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
     <rect x="342" y="122" width="255" height="8" rx="4" fill="#39a78a"/>
     <circle cx="370" cy="158" r="15" fill="#e6f6f1"/>
-    <text x="370" y="163" text-anchor="middle" font-size="13" font-weight="700" fill="#23846b">02</text>
-    <text x="395" y="164" font-size="18" font-weight="700" fill="#17324d">代理 / API 接入</text>
-    <text x="362" y="202" font-size="14" fill="#415a72">本地开发：Node.js 代理</text>
-    <text x="362" y="228" font-size="14" fill="#415a72">Docker：Nginx</text>
-    <text x="362" y="254" font-size="14" fill="#415a72">转发请求到 FastAPI</text>
-    <text x="362" y="279" font-size="12" fill="#7b8fa2">文件解析能力因部署方式而异</text>
+    <text x="370" y="163" text-anchor="middle" font-size="14" font-weight="700" fill="#23846b">02</text>
+    <text x="395" y="164" font-size="20" font-weight="700" fill="#17324d">代理 / API 接入</text>
+    <text x="362" y="202" font-size="18" fill="#415a72">本地开发：Node.js 代理</text>
+    <text x="362" y="228" font-size="18" fill="#415a72">Docker：Nginx</text>
+    <text x="362" y="254" font-size="18" fill="#415a72">转发请求到 FastAPI</text>
+    <text x="362" y="279" font-size="14" fill="#7b8fa2">文件解析能力因部署方式而异</text>
 
     <rect x="642" y="122" width="255" height="174" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
     <rect x="642" y="122" width="255" height="8" rx="4" fill="#805fd0"/>
     <circle cx="670" cy="158" r="15" fill="#f0eaff"/>
-    <text x="670" y="163" text-anchor="middle" font-size="13" font-weight="700" fill="#6945b9">03</text>
-    <text x="695" y="164" font-size="18" font-weight="700" fill="#17324d">FastAPI + RAG</text>
-    <text x="662" y="202" font-size="14" fill="#415a72">Sentence Transformers 编码</text>
-    <text x="662" y="228" font-size="14" fill="#415a72">Chroma 检索题库 / 资料</text>
-    <text x="662" y="254" font-size="14" fill="#415a72">组装上下文并保存问答</text>
-    <text x="662" y="279" font-size="12" fill="#7b8fa2">向量库需在本地初始化</text>
+    <text x="670" y="163" text-anchor="middle" font-size="14" font-weight="700" fill="#6945b9">03</text>
+    <text x="695" y="164" font-size="20" font-weight="700" fill="#17324d">FastAPI + RAG</text>
+    <text x="662" y="202" font-size="18" fill="#415a72">Sentence Transformers 编码</text>
+    <text x="662" y="228" font-size="18" fill="#415a72">Chroma 检索题库 / 资料</text>
+    <text x="662" y="254" font-size="18" fill="#415a72">组装上下文并保存问答</text>
+    <text x="662" y="279" font-size="14" fill="#7b8fa2">向量库需在本地初始化</text>
 
     <rect x="942" y="122" width="216" height="174" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
     <rect x="942" y="122" width="216" height="8" rx="4" fill="#e49a48"/>
     <circle cx="970" cy="158" r="15" fill="#fff1df"/>
-    <text x="970" y="163" text-anchor="middle" font-size="13" font-weight="700" fill="#b56a1d">04</text>
-    <text x="995" y="164" font-size="18" font-weight="700" fill="#17324d">回答生成</text>
-    <text x="962" y="202" font-size="14" fill="#415a72">DeepSeek API</text>
-    <text x="962" y="228" font-size="14" fill="#415a72">或本地 LoRA 模型</text>
-    <text x="962" y="254" font-size="14" fill="#415a72">由服务端配置决定</text>
-    <text x="962" y="279" font-size="12" fill="#7b8fa2">权重不会随仓库下载</text>
+    <text x="970" y="163" text-anchor="middle" font-size="14" font-weight="700" fill="#b56a1d">04</text>
+    <text x="995" y="164" font-size="20" font-weight="700" fill="#17324d">回答生成</text>
+    <text x="962" y="202" font-size="18" fill="#415a72">DeepSeek API</text>
+    <text x="962" y="228" font-size="18" fill="#415a72">或本地 LoRA 模型</text>
+    <text x="962" y="254" font-size="18" fill="#415a72">由服务端配置决定</text>
+    <text x="962" y="279" font-size="14" fill="#7b8fa2">权重不会随仓库下载</text>
 
     <path d="M301 209 H333" stroke="#7690aa" stroke-width="2.5" marker-end="url(#arrow)"/>
     <path d="M601 209 H633" stroke="#7690aa" stroke-width="2.5" marker-end="url(#arrow)"/>
     <path d="M901 209 H933" stroke="#7690aa" stroke-width="2.5" marker-end="url(#arrow)"/>
 
     <rect x="42" y="344" width="350" height="190" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
-    <text x="64" y="378" font-size="17" font-weight="700" fill="#17324d">题库与检索资料</text>
-    <text x="64" y="410" font-size="14" fill="#415a72">• 静态题库：60 道结构化问题</text>
-    <text x="64" y="436" font-size="14" fill="#415a72">• 可选简历 / JD：解析后用于检索</text>
-    <text x="64" y="462" font-size="14" fill="#415a72">• 题库分布见下方统计表</text>
-    <text x="64" y="507" font-size="12" fill="#7b8fa2">来源：仓库内 data/interview_questions.json</text>
+    <text x="64" y="378" font-size="19" font-weight="700" fill="#17324d">题库与检索资料</text>
+    <text x="64" y="410" font-size="18" fill="#415a72">• 静态题库：60 道结构化问题</text>
+    <text x="64" y="436" font-size="18" fill="#415a72">• 可选简历 / JD：解析后用于检索</text>
+    <text x="64" y="462" font-size="18" fill="#415a72">• 题库分布见下方统计表</text>
+    <text x="64" y="507" font-size="14" fill="#7b8fa2">来源：仓库内 data/interview_questions.json</text>
 
     <rect x="425" y="344" width="350" height="190" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
-    <text x="447" y="378" font-size="17" font-weight="700" fill="#17324d">可选语音与视觉服务</text>
-    <text x="447" y="410" font-size="14" fill="#415a72">• 语音：浏览器能力 / 火山引擎 TTS</text>
-    <text x="447" y="436" font-size="14" fill="#415a72">• 视觉：Qwen-VL 摄像头状态分析</text>
-    <text x="447" y="462" font-size="14" font-weight="600" fill="#a34f35">• 启用视觉时，抽帧会发送到配置服务</text>
-    <text x="447" y="507" font-size="12" fill="#7b8fa2">均需相应服务可用；部分功能需凭据</text>
+    <text x="447" y="378" font-size="19" font-weight="700" fill="#17324d">可选语音与视觉服务</text>
+    <text x="447" y="410" font-size="18" fill="#415a72">• 语音：浏览器能力 / 火山引擎 TTS</text>
+    <text x="447" y="436" font-size="18" fill="#415a72">• 视觉：Qwen-VL 摄像头状态分析</text>
+    <text x="447" y="462" font-size="18" font-weight="600" fill="#a34f35">• 启用视觉时，抽帧会发送到配置服务</text>
+    <text x="447" y="507" font-size="14" fill="#7b8fa2">均需相应服务可用；部分功能需凭据</text>
 
     <rect x="808" y="344" width="350" height="190" rx="16" fill="#ffffff" stroke="#d8e4ef" stroke-width="1.5"/>
-    <text x="830" y="378" font-size="17" font-weight="700" fill="#17324d">本地运行记录</text>
-    <text x="830" y="410" font-size="14" fill="#415a72">• 面试问答与统计写入 JSONL</text>
-    <text x="830" y="436" font-size="14" fill="#415a72">• 记录可能包含个人回答</text>
-    <text x="830" y="462" font-size="14" fill="#415a72">• 日志与个人材料不纳入 Git</text>
-    <text x="830" y="507" font-size="12" fill="#7b8fa2">请按需管理本地文件和 API 凭据</text>
+    <text x="830" y="378" font-size="19" font-weight="700" fill="#17324d">本地运行记录</text>
+    <text x="830" y="410" font-size="18" fill="#415a72">• 面试问答与统计写入 JSONL</text>
+    <text x="830" y="436" font-size="18" fill="#415a72">• 记录可能包含个人回答</text>
+    <text x="830" y="462" font-size="18" fill="#415a72">• 日志与个人材料不纳入 Git</text>
+    <text x="830" y="507" font-size="14" fill="#7b8fa2">请按需管理本地文件和 API 凭据</text>
   </g>
-  <text x="42" y="565" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7b8fa2">示意图描述仓库中的实现路径，不代表线上部署、性能测试或模型效果评估。</text>
+  <text x="42" y="565" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif" font-size="14" fill="#7b8fa2">示意图描述仓库中的实现路径，不代表线上部署、性能测试或模型效果评估。</text>
 </svg>
